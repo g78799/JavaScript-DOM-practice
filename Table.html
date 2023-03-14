@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <canvas id="mkshare"></canvas>
+    <canvas id="mkShare"></canvas>
     <table class="table table-bordered table-striped">
         <!-- <thead>
             <tr>
@@ -33,16 +33,17 @@
     </table>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"
-    integrity="sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+
         const marketingShare = {
             version: "v1.0",
             publish: "2021/12/31",
             report: "2021年全球晶圓代工市佔率",
             titles: ["排名", "公司名稱", "國別", "市佔率"],
-            data: [
+            data:[
                 { Ranking: 1, Company: "台積電", Country: "台灣", Ratio: "53.1" },
                 { Ranking: 2, Company: "三星電子", Country: "韓國", Ratio: "17.3" },
                 { Ranking: 3, Company: "聯電", Country: "台灣", Ratio: "7.2" },
@@ -56,33 +57,32 @@
             ]
         };
 
+        let companies = [], data = [];  
 
-        let companies = [],data = [];
-
-        window.onload = function() {
+        window.onload = function () {
             marketingShare.data.forEach(corp => {
-                companies.push(corp.companies);
+                companies.push(corp.Company);
                 data.push(corp.Ratio);
             });
-        
 
-        drawPieChart(companies,data);
-        createTable();
+            drawPieChart(companies, data);
+            createTable()
         }
     </script>
 
     <script>
-
-        function drawPieChart(companyArray,dataArray){
-            let ctxPie = document.getElementById("mkshare");
-            var pieChart = new chart(ctxPie,{
-                type: 'Pie',
-                data:{
+        //第一個參數為公司陣列, 第二個參數為資料陣列
+        function drawPieChart(companyArray, dataArray) {
+            //Pie Chart圓餅圖
+            let ctxPie = document.getElementById("mkShare");
+            var pieChart = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
                     labels: companyArray,
                     datasets: [{
                         data: dataArray,
                         backgroundColor: [
-                        'rgb(255, 99, 132)',
+                            'rgb(255, 99, 132)',
                             'rgb(255,75,50)',
                             'rgb(255, 205, 86)',
                             'rgb(75, 192, 192)',
@@ -99,16 +99,16 @@
                     responsive: true,
                     title: {
                         display: true,
-                        fornSize: 26,
-                        text: '2021全球晶圓代工市佔率%'
+                        fontSize: 26,
+                        text: '2021年全球晶圓代工市佔率%'
                     },
                     tooltips: {
-                        mods: 'point',
+                        mode: 'point',
                         intersect: true,
                     },
                     legend: {
                         position: 'bottom',
-                        lables: {
+                        labels: {
                             fontColor: 'black',
                         }
                     }
@@ -116,9 +116,9 @@
             });
         }
 
-        let marketingShare2D = [];
+        let marketingShare2D = []
         let table, thead, tbody;
-
+    
         function createTable(){
 
             table = document.getElementsByClassName('table');
@@ -127,7 +127,9 @@
 
             CreateThead(marketingShare.titles);
 
-            marketingShare.data.forEach (item => {
+            //Object-->2D Array
+
+            marketingShare.data.forEach(item => {
                 let values = Object.values(item);
                 marketingShare2D.push(values);
             });
@@ -136,10 +138,11 @@
         }
 
         function CreateThead(titleArray){
-            let theadTR = document.createElement('tr');
-
-            titleArray.forEach((title,index)=>{
-                let th = document.createElement('th');
+            //(1)
+            let theadTR = document.createElement("tr");
+            //(2)建立th,設定資料,th加入tr
+            titleArray.forEach((title, index)=>{
+                let th = document.createElement("th");
                 th.innerText = title;
                 theadTR.append(th);
             });
@@ -149,8 +152,10 @@
         }
 
         function CreateTbody(globalCountry){
-            globalCountry.forEach(country => {
+            globalCountry.forEach(country => { 
                 let tr = document.createElement("tr");
+                //(2)建立td,設定資料,td加入tr
+                //['台灣', 41, 1, 12]
                 country.forEach(columndata => {
                     let td = document.createElement("td");
                     td.innerText = columndata;
@@ -162,6 +167,7 @@
 
             table[0].append(tbody);
         }
+    
     </script>
 </body>
 
