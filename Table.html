@@ -64,10 +64,11 @@
                 companies.push(corp.companies);
                 data.push(corp.Ratio);
             });
-        }
+        
 
         drawPieChart(companies,data);
         createTable();
+        }
     </script>
 
     <script>
@@ -75,7 +76,7 @@
         function drawPieChart(companyArray,dataArray){
             let ctxPie = document.getElementById("mkshare");
             var pieChart = new chart(ctxPie,{
-                type: 'pie',
+                type: 'Pie',
                 data:{
                     labels: companyArray,
                     datasets: [{
